@@ -23,5 +23,15 @@
     <input type="password" name="password"/>
     <input type="submit" value="提交"/>
 </form>
+
+<table border="1">
+    {% for line in data %}
+        <tr>
+            <td>{{ line.user }}</td>
+            <td>{{ line.pwd }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
 </body>
 </html>
