@@ -19,3 +19,6 @@ def index(request):
         user_list.append(temp)
 
     return render(request, "index.html", {"data": user_list})
+
+def test(request):
+    return render(request, "test.html")
