@@ -10,5 +10,31 @@
         <h5>branch master</h5>
         <h6>branch dev</h6>
         <h7>origin_branch_dev</h7>
+<h4>{{ ctx }}</h4>
+
+
+
+
+
+<table border="0">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>title</th>
+        <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in b %}
+    <tr>
+      <td>{{ item.iid  }}</td>
+      <td>{{ item.title  }}</td>
+        <td>{{ item.score  }}</td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+
 </body>
 </html>

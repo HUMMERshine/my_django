@@ -1,3 +1,4 @@
+#encoding:utf-8
 """my_django URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -16,9 +17,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from polls import views
+from polls import test_views
+# 不一定必须写在views里，从from import导入的文件都行
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/', views.index),
     url(r'^test/', views.test),
+    url(r'^test_views/', test_views.test_views),
 ]
