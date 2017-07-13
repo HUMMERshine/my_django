@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import HttpResponse
-
+from polls import models
 from django.shortcuts import render
 
 user_list = [{"user": "jack", "pwd": "abc"}, {"user": "tom", "pwd": "ABC"}]
 
+@staff_member_required
+def hello(request):
+    return HttpResponse("OK")
 
 # Create your views here.
 def index(request):
@@ -16,10 +20,19 @@ def index(request):
         password = request.POST.get("password", None)
         print "*****"
         print (username, password)
-        temp = {"user": username, "pwd": password}
-        user_list.append(temp)
 
-    return render(request, "index.html", {"data": user_list})
+        models.UserInfo.objects.create(user=username, pwd=password)
+    user_list=models.UserInfo.objects.all()
+    print user_list
+        # temp = {"user": username, "pwd": password}
+        # user_list.append(temp)
+
+    return render(request, "polls_index.html", {"data": user_list})
+
+def test_db(request):
+    test1 = Test(name='runoob')
+    test1.save()
+    return HttpResponse("<p>数据添加成功！</p>")
 
 def test_views(request):
     # return HttpResponse("hello world!")
@@ -32,7 +45,7 @@ def test_views(request):
         temp = {"user": username, "pwd": password}
         user_list.append(temp)
 
-    return render(request, "index.html", {"data": user_list})
+    return render(request, "polls_index.html", {"data": user_list})
 
 def test(request):
     ctx = {'b': [{u'iid': 6433736334141032714, u'score': u'1.197082',
@@ -544,4 +557,4 @@ def test(request):
                  {u'iid': 6433922158442842378, u'score': u'0.3111082',
                   'title': u'A Royal Ascot fiasco: Duchess of Cambridge catches Sophie, Countess of Wessex as she falls'}]
         , 'c': 456, 'a': 123}
-    return render(request, "test.html", ctx)
+    return render(request, "polls_test.html", ctx)

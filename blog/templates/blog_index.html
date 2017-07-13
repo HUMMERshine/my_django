@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for line in blog_list %}
+        <tr>
+            <td>{{ line.id }}</td>
+            <td>{{ line.title }}</td>
+            <td>{{ line.body }}</td>
+            <td>{{ line.timestamp }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

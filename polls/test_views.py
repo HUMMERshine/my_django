@@ -514,4 +514,4 @@ def test_views(request):
                  {u'iid': 6433922158442842378, u'score': u'0.3111082',
                   'title': u'A Royal Ascot fiasco: Duchess of Cambridge catches Sophie, Countess of Wessex as she falls'}]
         , 'c': 456, 'a': 123}
-    return render(request, "test.html", ctx)
+    return render(request, "polls_test.html", ctx)
