@@ -5,9 +5,9 @@
 from django.db import models
 
 class Test(models.Model):
-    scriptname = models.CharField(u'脚本名称',max_length=100)
-    paramname = models.CharField(u'参数名称',max_length=100)
-    param = models.TextField(u'参数列表',blank=True)
+    script_name = models.CharField(u'脚本名称',max_length=100)
+    params_name = models.CharField(u'参数名称',max_length=100)
+    params = models.TextField(u'参数列表',blank=True)
     #history = models.TextField(u'历史操作记录', blank=True)
 
     # def __unicode__(self):
