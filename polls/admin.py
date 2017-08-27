@@ -123,10 +123,11 @@ class TestAdmin(admin.ModelAdmin):
     def resolve_param(self, obj):
         param = obj.params
         if self.is_json(param):
-            if isinstance(json.loads(param), dict):
-                return format_html(self.format_dict(json.loads(param)))
+            return format_html(self.format_json(json.loads(param)))
+            # if isinstance(json.loads(param), dict):
+            #     return format_html(self.format_dict(json.loads(param)))
 
-        return ("%s" % (param))
+        return format_html(self.format_str(param))
     resolve_param.short_description = '参数列表'
 
     @staticmethod
@@ -150,11 +151,51 @@ class TestAdmin(admin.ModelAdmin):
             if isinstance(value, dict):
                 s = s + ('<td>%s</td><td>%s</td>' % (key, TestAdmin.format_dict(value)))
                 # print format(value)
+            elif isinstance(value, list):
+                s = s + ('<td>%s</td><td style="word-break: break-all;">' % key)
+                for element in value:
+                    if isinstance(element, dict):
+                        s = s + TestAdmin.format_dict(element);
+                    else:
+                        s = s + str(element) + ','
+                s = s + ('</td>')
             else:
-                s = s + ('<td>%s</td><td>%s</td>' % (key, str(value)))
+                s = s + ('<td>%s</td><td style="word-break: break-all;">%s</td>' % (key, value))
             s = s + '</tr>'
         s = s + '</table>'
         return s
+
+    @staticmethod
+    def format_json(myjson):
+        print myjson, type(myjson)
+        if isinstance(myjson, list):
+            s = '<table border="1">'
+            temp = ''
+            for element in myjson:
+                if not isinstance(element, list) and not isinstance(element, dict):
+                    temp = temp + str(element) + ','
+                else:
+                    s = s + '<tr><td>'
+                    s = s + TestAdmin.format_json(element)
+                    s = s + '</td></tr>'
+            s = s + '<tr><td style="word-break: break-all;">' + temp[:-1] + '</td></tr>'
+            s = s + '</table>'
+            return s
+        elif isinstance(myjson, dict):
+            s = ''
+            s = s + '<table border="1">'
+            for key, value in myjson.items():
+                s = s + '<tr><td>' + key + '</td><td>'
+                s = s + TestAdmin.format_json(value)
+                s = s + '</td></tr>'
+            s = s + '</table>'
+            return s
+        else:
+            return str(myjson)
+
+    @staticmethod
+    def format_str(strs):
+        return '<table><tr><td style="word-break: break-all;">' + str(strs) + '</td></tr></table>'
 
     @staticmethod
     def compare_dict(info, be, af):
